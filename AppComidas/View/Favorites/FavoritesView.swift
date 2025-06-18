@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct PromotionsView: View {
+struct FavoritesView: View {
     var body: some View {
-        Text("Promotions page")
+        Text("Favorites page")
     }
 }
 
 #Preview {
-    PromotionsView()
+    FavoritesView()
 }

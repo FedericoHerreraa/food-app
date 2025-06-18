@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct PageTitleView: View {
+    let title: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text(title)
+                .font(.title2)
+                .bold()
+        }
+        .padding(.vertical, 20)
     }
 }
 
 #Preview {
-    PageTitleView()
+    PageTitleView(title: "My Cart")
 }

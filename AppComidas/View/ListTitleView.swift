@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct ListTitleView: View {
+    let title: String
+    let buttonText: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text(title)
+                .font(.title2)
+                .bold()
+                .foregroundColor(.black.opacity(0.7))
+            
+            Spacer()
+            
+            Text(buttonText)
+                .foregroundColor(.blue)
+        }
+        .padding(.horizontal, 12)
+        .padding(.top, 20)
     }
 }
 
 #Preview {
-    ListTitleView()
+    ListTitleView(title: "Exclusive Offer", buttonText: "See all")
 }

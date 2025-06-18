@@ -8,11 +8,91 @@
 import SwiftUI
 
 struct OrderView: View {
+    @EnvironmentObject private var cart: Cart
+    @State var showSheet = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            PageTitleView(title: "My Cart")
+            
+            ForEach(cart.items) { item in
+                HStack(alignment: .top) {
+                    Image(item.food.img)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 50)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(item.food.title)
+                            .font(.title3)
+                            .bold()
+                        
+                        Text("1kg. Price")
+                            .font(.subheadline)
+                            .foregroundColor(.black.opacity(0.5))
+                        
+                        HStack(spacing: 20) {
+                            Image(systemName: "minus")
+                            Text("\(item.quantity)")
+                            Image(systemName: "plus")
+                                .foregroundColor(.green.opacity(0.7))
+                                .bold()
+                        }
+                        .padding(.top, 4)
+                    }
+                    .padding(.leading, 20)
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 40) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.gray.opacity(0.8))
+                        Text("$\(String(format: "%.2f", item.food.price))")
+                            .bold()
+                            
+                    }
+                }
+                .padding(20)
+                .overlay(
+                    VStack {
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundColor(Color.gray.opacity(0.1))
+                        Spacer()
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundColor(Color.gray.opacity(0.1))
+                    }
+                )
+            }
+            
+            Spacer()
+            
+            Button {
+                showSheet = true
+            } label: {
+                Text("Checkout")
+                    .foregroundColor(.white)
+                    .bold()
+                    .font(.title2)
+            }
+            .frame(width: 350, height: 70)
+            .background(.green.opacity(0.9))
+            .cornerRadius(26)
+            .padding(.top, 50)
+            .padding(.bottom, 10)
+        }
+        .sheet(isPresented: $showSheet) {
+            VStack {
+                PageTitleView(title: "Checkout your order")
+            }
+            .presentationDetents([.medium, .large])
+            
+        }
     }
 }
 
 #Preview {
     OrderView()
+        .environmentObject(Cart())
 }

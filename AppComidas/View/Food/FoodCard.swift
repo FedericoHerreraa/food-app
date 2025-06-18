@@ -8,44 +8,46 @@
 import SwiftUI
 
 struct FoodCard: View {
-    let title: String
-    let description: String
-    let price: Double
-    let img: String
+    @EnvironmentObject private var cart: Cart
+    let food: Food
     
     var body: some View {
         VStack {
-            Image(systemName: "carrot")
+            Image(food.img)
                 .resizable()
-                .frame(width: 50, height: 50)
+                .frame(width: 90, height: 60)
                 .foregroundColor(.orange)
             
-            Text(title)
-                .font(.title)
+            Text(food.title)
+                .font(.title3)
                 .bold()
                 .foregroundColor(.black)
             
-            Text(description)
-                .font(.headline)
+            Text(food.description)
+                .font(.subheadline)
                 .foregroundColor(.gray)
             
             Spacer()
             
             HStack {
-                Text("$\(String(price))")
+                Text("$\(String(food.price))")
                     .font(.title2)
                     .bold()
                     .foregroundColor(.black)
                 
                 Spacer()
                 
-                Image(systemName: "plus")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(.white)
-                    .padding(7)
-                    .background(.green.opacity(0.7))
-                    .cornerRadius(5)
+                Button {
+                    cart.add(food)
+                } label: {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.white)
+                        .padding(7)
+                        .background(.green.opacity(0.7))
+                        .cornerRadius(10)
+                }
                 
             }
             .padding(.horizontal, 10)
@@ -53,7 +55,7 @@ struct FoodCard: View {
         }
         .padding(20)
         .frame(width: 200, height: 250)
-        .background(.gray.opacity(0.1))
+        .background(.gray.opacity(0.03))
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
@@ -63,5 +65,5 @@ struct FoodCard: View {
 }
 
 #Preview {
-    FoodCard(title: "Pizza", description: "Delicious pizza americana", price: 3.56, img: "img")
+    FoodCard(food: Food(title: "Pizza", description: "Delicious pizza americana", price: 3.56, img: "apple"))
 }
