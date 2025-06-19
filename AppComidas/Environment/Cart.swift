@@ -16,16 +16,19 @@ struct CartItem: Identifiable {
 
 @MainActor
 final class Cart: ObservableObject {
-    @Published var items: [CartItem] = [
-        .init(food: Food(title: "Pizza", description: "The best pizza", price: 3.55, img: "apple"), quantity: 1),
-        .init(food: Food(title: "Pasta", description: "The best pasta", price: 5.55, img: "apple"), quantity: 1)
-    ]
+    @Published var items: [CartItem] = []
+    @Published var itemAdded = false
     
     func add(_ food: Food) {
-        if let index = items.firstIndex(where: { $0.food.id == food.id }) {
+        itemAdded.toggle()
+        if let index = items.firstIndex(where: { $0.food.title == food.title }) {
             items[index].quantity += 1
         } else {
             items.append(.init(food: food, quantity: 1))
         }
+    }
+    
+    func remove(foodId: UUID) {
+        items.removeAll { $0.id == foodId }
     }
 }

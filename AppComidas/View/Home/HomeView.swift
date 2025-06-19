@@ -13,15 +13,6 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                Image(systemName: "carrot.fill")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .foregroundColor(.orange)
-                Label("Buenos Aires, Argentina", systemImage: "mappin.circle.fill")
-                    .padding(.top, 10)
-                
-                SearchBarView(searchText: $searchText)
-                
                 Image("banner_top")
                     .resizable()
                     .frame(height: 130)
@@ -33,8 +24,8 @@ struct HomeView: View {
                 ScrollView(.horizontal) {
                     HStack(spacing: 10) {
                         ForEach(foods) { food in
-                            NavigationLink(destination: FoodDetail(food: food)) {
-                                FoodCard(food: food)
+                            NavigationLink(destination: FoodDetailView(food: food)) {
+                                FoodCardView(food: food)
                             }
                         }
                     }
@@ -46,8 +37,8 @@ struct HomeView: View {
                 ScrollView(.horizontal) {
                     HStack(spacing: 10) {
                         ForEach(foods) { food in
-                            NavigationLink(destination: FoodDetail(food: food)) {
-                                FoodCard(food: food)
+                            NavigationLink(destination: FoodDetailView(food: food)) {
+                                FoodCardView(food: food)
                             }
                         }
                     }
@@ -56,9 +47,11 @@ struct HomeView: View {
                 
                 Spacer()
             }
+            .navigationTitle("Home")
             .scrollIndicators(.hidden)
             .padding(.horizontal, 10)
         }
+        .searchable(text: $searchText, prompt: "Search your product")
     }
 }
 

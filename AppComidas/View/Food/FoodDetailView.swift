@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct FoodDetail: View {
+struct FoodDetailView: View {
     @EnvironmentObject private var cart: Cart
+    @EnvironmentObject private var favorite: Favorite
     @State var count: Int = 0
     let food: Food
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -37,7 +38,11 @@ struct FoodDetail: View {
                     
                     Spacer()
                     
-                    Image(systemName: "heart")
+                    Button {
+                        favorite.addFavorite(food)
+                    } label: {
+                        Image(systemName: favorite.isProdFavorite(id: food.id) ? "heart.fill" :"heart")
+                    }
                 }
                 .padding(.top, 10)
                 .frame(maxWidth: .infinity)
@@ -96,5 +101,5 @@ struct FoodDetail: View {
 }
 
 #Preview {
-    FoodDetail(food: Food(title: "Pizza", description: "Pizza description", price: 3.55, img: "apple"))
+    FoodDetailView(food: Food(title: "Pizza", description: "Pizza description", price: 3.55, img: "apple"))
 }

@@ -10,11 +10,19 @@ import SwiftUI
 @main
 struct AppComidasApp: App {
     @StateObject var cart = Cart()
+    @StateObject var favorites = Favorite()
     
     var body: some Scene {
         WindowGroup {
-            FoodTabsView()
-                .environmentObject(cart)
+            ZStack {
+                FoodTabsView()
+                    .environmentObject(cart)
+                    .environmentObject(favorites)
+                
+                if cart.itemAdded {
+                    ItemAddedNotification()
+                }
+            }
         }
     }
 }

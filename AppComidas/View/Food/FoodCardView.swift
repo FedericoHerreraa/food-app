@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FoodCard: View {
+struct FoodCardView: View {
     @EnvironmentObject private var cart: Cart
     let food: Food
     
@@ -15,7 +15,8 @@ struct FoodCard: View {
         VStack {
             Image(food.img)
                 .resizable()
-                .frame(width: 90, height: 60)
+                .scaledToFit()
+                .frame(height: 90)
                 .foregroundColor(.orange)
             
             Text(food.title)
@@ -65,5 +66,5 @@ struct FoodCard: View {
 }
 
 #Preview {
-    FoodCard(food: Food(title: "Pizza", description: "Delicious pizza americana", price: 3.56, img: "apple"))
+    FoodCardView(food: Food(title: "Pizza", description: "Delicious pizza americana", price: 3.56, img: "apple"))
 }

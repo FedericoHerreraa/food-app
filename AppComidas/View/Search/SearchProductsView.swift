@@ -7,24 +7,19 @@
 
 import SwiftUI
 
-
 let columns = [
     GridItem(.flexible(), spacing: 16),
     GridItem(.flexible(), spacing: 16)
 ]
 
 struct SearchProductsView: View {
-    @State var searchText: String = ""
+    @StateObject private var viewModel = SearchProductsViewModel()
     
     var body: some View {
-        ScrollView {
-            PageTitleView(title: "Find Products")
-            
-            SearchBarView(searchText: $searchText)
-                    
+        NavigationView {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(categories) { category in
+                    ForEach(viewModel.categoriesToShow) { category in
                         VStack(spacing: 10) {
                             Image(category.imageName)
                                 .resizable()
@@ -36,7 +31,7 @@ struct SearchProductsView: View {
                                 .multilineTextAlignment(.center)
                         }
                         .padding()
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, maxHeight: 200)
                         .background(category.backgroundColor.opacity(0.1))
                         .cornerRadius(20)
                         .overlay(
@@ -46,9 +41,11 @@ struct SearchProductsView: View {
                     }
                 }
                 .padding()
+                
             }
+            .navigationTitle("Find Products")
         }
-        .padding(.horizontal, 10)
+        .searchable(text: $viewModel.searchText, prompt: "Search your category")
     }
 }
 
