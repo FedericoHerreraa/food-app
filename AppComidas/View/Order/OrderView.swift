@@ -12,12 +12,12 @@ struct OrderView: View {
     @State var showSheet = false
     
     var body: some View {
-        if cart.items.isEmpty {
-            Text("Nothing in Cart yet")
-        } else {
-            VStack {
-                NavigationView {
-                    List {
+        VStack {
+            NavigationView {
+                List {
+                    if cart.items.isEmpty {
+                        Text("Nothing in Cart yet")
+                    } else {
                         ForEach(cart.items, id: \.id) { item in
                             HStack(alignment: .top) {
                                 Image(item.food.img)
@@ -67,36 +67,37 @@ struct OrderView: View {
                             }
                         }
                     }
-                    .listStyle(.plain)
-                    .toolbar {
-                        EditButton()
-                    }
-                    .navigationTitle(Text("My Cart"))
                 }
-                
-                
-                Spacer()
-                
-                Button {
-                    showSheet = true
-                } label: {
-                    Text("Checkout")
-                        .foregroundColor(.white)
-                        .bold()
-                        .font(.title2)
+                .listStyle(.plain)
+                .toolbar {
+                    EditButton()
                 }
-                .frame(width: 350, height: 70)
-                .background(.green.opacity(0.9))
-                .cornerRadius(26)
-                .padding(.top, 50)
-                .padding(.bottom, 10)
+                .navigationTitle(Text("My Cart"))
             }
-            .sheet(isPresented: $showSheet) {
-                VStack {
-                    CheckoutOrderView()
-                }
-                .presentationDetents([.medium, .large])
+            
+            
+            Spacer()
+            
+            Button {
+                showSheet = true
+            } label: {
+                Text("Checkout")
+                    .foregroundColor(.white)
+                    .bold()
+                    .font(.title2)
+                    .frame(width: 350, height: 70)
             }
+            .frame(width: 350, height: 70)
+            .background(.green.opacity(0.9))
+            .cornerRadius(26)
+            .padding(.top, 50)
+            .padding(.bottom, 10)
+        }
+        .sheet(isPresented: $showSheet) {
+            VStack {
+                CheckoutOrderView()
+            }
+            .presentationDetents([.medium, .large])
         }
     }
 }

@@ -13,12 +13,12 @@ struct FavoritesView: View {
     @StateObject private var viewModel = FavoritesViewModel()
     
     var body: some View {
-        if favorite.favorites.isEmpty {
-            Text("No favorites yet")
-        } else {
-            VStack {
-                NavigationView {
-                    List() {
+        VStack {
+            NavigationView {
+                List() {
+                    if favorite.favorites.isEmpty {
+                        Text("No favorites yet")
+                    } else {
                         ForEach(favorite.favorites) { fav in
                             HStack {
                                 Image(fav.img)
@@ -39,28 +39,28 @@ struct FavoritesView: View {
                             }
                         }
                     }
-                    .listStyle(.plain)
-                    .toolbar {
-                        EditButton()
-                    }
-                    .navigationTitle("My Favorites")
                 }
-                
-                Button {
-                    viewModel.addAllToBasket(cart: cart, favorite: favorite)
-                } label: {
-                    Text("Add favorites to basket")
-                        .foregroundColor(.white)
-                        .bold()
-                        .font(.title2)
+                .listStyle(.plain)
+                .toolbar {
+                    EditButton()
                 }
-                .frame(width: 350, height: 70)
-                .background(.green.opacity(0.9))
-                .cornerRadius(26)
-                .padding(.top, 50)
-                .padding(.bottom, 10)
-                
+                .navigationTitle("My Favorites")
             }
+            
+            Button {
+                viewModel.addAllToBasket(cart: cart, favorite: favorite)
+            } label: {
+                Text("Add favorites to basket")
+                    .foregroundColor(.white)
+                    .bold()
+                    .font(.title2)
+                    .frame(width: 350, height: 70)
+            }
+            .frame(width: 350, height: 70)
+            .background(.green.opacity(0.9))
+            .cornerRadius(26)
+            .padding(.top, 50)
+            .padding(.bottom, 10)
         }
     }
 }

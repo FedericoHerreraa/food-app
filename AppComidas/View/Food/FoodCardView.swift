@@ -66,5 +66,15 @@ struct FoodCardView: View {
 }
 
 #Preview {
-    FoodCardView(food: Food(title: "Pizza", description: "Delicious pizza americana", price: 3.56, img: "apple"))
+    FoodCardView(food: Food(
+        title: "Pizza",
+        description: "Deliciosa pizza napolitana",
+        price: 3.57,
+        img: "apple",
+        nutrition: NutritionInfo(calories: 850, protein: 22, carbs: 90, fat: 35),
+        extras: [
+            ExtraOption(name: "Extra queso", price: 0.5),
+            ExtraOption(name: "Aceitunas", price: 0.3)
+        ]
+    ))
 }

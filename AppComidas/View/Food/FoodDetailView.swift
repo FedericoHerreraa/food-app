@@ -11,6 +11,7 @@ struct FoodDetailView: View {
     @EnvironmentObject private var cart: Cart
     @EnvironmentObject private var favorite: Favorite
     @State var count: Int = 0
+    @State var toggleOn: Bool = false
     let food: Food
 
     var body: some View {
@@ -42,10 +43,14 @@ struct FoodDetailView: View {
                         favorite.addFavorite(food)
                     } label: {
                         Image(systemName: favorite.isProdFavorite(id: food.id) ? "heart.fill" :"heart")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 20)
                     }
                 }
                 .padding(.top, 10)
                 .frame(maxWidth: .infinity)
+                .padding(.horizontal, 20)
                 
                 HStack {
                     HStack(spacing: 30) {
@@ -77,6 +82,42 @@ struct FoodDetailView: View {
                 }
                 .padding(.top, 20)
                 .frame(maxWidth: .infinity)
+                .padding(.horizontal, 20)
+                
+                VStack {
+                    ForEach(food.extras) { extra in
+                        Toggle(isOn: $toggleOn) {
+                            Text(extra.name)
+                        }
+                    }
+                }
+                .padding(.top, 20)
+                .padding(.horizontal, 20)
+                
+                List {
+                    Section(header: Text("Información Nutricional")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                    ) {
+                        Text("Calorías: \(food.nutrition.calories)")
+                            .font(.headline)
+                        
+                        Text("Proteínas: \(String(format: "%.1f g", food.nutrition.protein))")
+                            .font(.headline)
+                        
+                        Text("Carbohidratos: \(String(format: "%.1f g", food.nutrition.carbs))")
+                            .font(.headline)
+                        
+                        Text("Grasas: \(String(format: "%.1f g", food.nutrition.fat))")
+                            .font(.headline)
+                    }
+                }
+                .listStyle(.plain)
+                .padding(.top, 10)
+                
+                
+                
                 
                 Spacer()
                 
@@ -93,7 +134,7 @@ struct FoodDetailView: View {
                 .cornerRadius(26)
                 .padding(.top, 50)
             }
-            .padding(.horizontal, 30)
+            
             
             Spacer()
         }
@@ -101,5 +142,15 @@ struct FoodDetailView: View {
 }
 
 #Preview {
-    FoodDetailView(food: Food(title: "Pizza", description: "Pizza description", price: 3.55, img: "apple"))
+    FoodDetailView(food: Food(
+        title: "Pizza",
+        description: "Deliciosa pizza napolitana",
+        price: 3.57,
+        img: "apple",
+        nutrition: NutritionInfo(calories: 850, protein: 22, carbs: 90, fat: 35),
+        extras: [
+            ExtraOption(name: "Extra queso", price: 0.5),
+            ExtraOption(name: "Aceitunas", price: 0.3)
+        ]
+    )).environmentObject(Favorite())
 }
