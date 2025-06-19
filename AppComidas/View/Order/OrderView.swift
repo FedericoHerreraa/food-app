@@ -34,9 +34,13 @@ struct OrderView: View {
                                         .font(.subheadline)
                                         .foregroundColor(.black.opacity(0.5))
                                     
-                                    HStack(spacing: 20) {
+                                    HStack(spacing: 15) {
                                         Image(systemName: "minus")
+                                        
                                         Text("\(item.quantity)")
+                                            .padding(.horizontal, 2)
+                                            .layoutPriority(1)
+                                        
                                         Image(systemName: "plus")
                                             .foregroundColor(.green.opacity(0.7))
                                             .bold()
@@ -48,10 +52,9 @@ struct OrderView: View {
                                 Spacer()
                                 
                                 VStack(alignment: .trailing, spacing: 40) {
-                                    Image(systemName: "xmark")
-                                        .foregroundColor(.gray.opacity(0.8))
                                     Text("$\(String(format: "%.2f", item.food.price))")
                                         .bold()
+                                        .font(.title2)
                                     
                                 }
                             }
@@ -90,7 +93,7 @@ struct OrderView: View {
             }
             .sheet(isPresented: $showSheet) {
                 VStack {
-                    PageTitleView(title: "Checkout your order")
+                    CheckoutOrderView()
                 }
                 .presentationDetents([.medium, .large])
             }
